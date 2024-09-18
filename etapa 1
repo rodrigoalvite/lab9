@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Transaccion{
+    string tipo;
+    string nombre;
+    int cantidad;
+    float precio;
+    float total;
+};
+
+void RegisterTransaction(Transaccion t);
+void ViewTransaction(void);
+
+const int MaxTransaccion = 100;
+Transaccion transacciones[MaxTransaccion];
+int cont_transaccion = 0;
+
+int main() {
+    int opcion;
+    Transaccion t;
+
+    do {
+        cout << "Seleccione una opción:" << endl;
+        cout << "1. Registrar compra o venta" << endl;
+        cout << "2. Ver todas las transacciones" << endl;
+        cout << "3. Salir" << endl;
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                RegisterTransaction(t);
+                break;
+            case 2:
+                ViewTransaction();
+                break;
+            case 3:
+                cout << "Saliendo del programa..." << endl;
+                break;
+            default:
+                cout << "Opción no válida. Intente de nuevo." << endl;
+        }
+    } while(opcion != 3);
+
+    return 0;
+}
+
+void RegisterTransaction(Transaccion t) {
+    cout << "Tipo (compra o venta): ";
+    cin >> t.tipo;
+    cout << "Nombre: ";
+    cin >> t.nombre;
+    cout << "Cantidad: ";
+    cin >> t.cantidad;
+    cout << "Precio: ";
+    cin >> t.precio;
+    
+    t.total = t.cantidad * t.precio;
+    transacciones[cont_transaccion] = t;
+    cont_transaccion++;
+}
+
+void ViewTransaction() {
+    cout << "Transacciones registradas:" << endl;
+    for (int i = 0; i < cont_transaccion; i++) {
+        cout << "Tipo: " << transacciones[i].tipo << endl;
+        cout << "Nombre: " << transacciones[i].nombre << endl;
+        cout << "Cantidad: " << transacciones[i].cantidad << endl;
+        cout << "Precio: " << transacciones[i].precio << endl;
+        cout << "Total: " << transacciones[i].total << endl;
+        cout << "--------------------------" << endl;
+    }
+}
