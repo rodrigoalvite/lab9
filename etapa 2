@@ -1,0 +1,134 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Transaccion{
+    string tipo;
+    string nombre;
+    int cantidad;
+    float precio;
+    float total;
+};
+
+void RegisterTransaction(Transaccion t);
+void ViewTransaction(void);
+void SearchTransaction(void);
+void UpdateTransaction(void);
+
+const int MaxTransaccion = 100;
+Transaccion transacciones[MaxTransaccion];
+int cont_transaccion = 0;
+
+int main() {
+    int opcion;
+    Transaccion t;
+
+    do {
+        cout << "Seleccione una opcion:" << endl;
+        cout << "1. Registrar compra o venta" << endl;
+        cout << "2. Ver todas las transacciones" << endl;
+        cout << "3. Buscar una transaccion" << endl;
+        cout << "4. Editar una transaccion" << endl;
+        cout << "5. Salir" << endl;
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                RegisterTransaction(t);
+                break;
+            case 2:
+                ViewTransaction();
+                break;
+            case 3:
+                SearchTransaction();
+                break;
+            case 4:
+                UpdateTransaction();
+                break;
+            case 5:
+                cout << "Saliendo del programa..." << endl;
+                break;
+            default:
+                cout << "Opcion no válida. Intente de nuevo." << endl;
+        }
+    } while(opcion != 5);
+
+    return 0;
+}
+
+void RegisterTransaction(Transaccion t) {
+    cout << "Tipo (compra o venta): ";
+    cin >> t.tipo;
+    cout << "Nombre: ";
+    cin >> t.nombre;
+    cout << "Cantidad: ";
+    cin >> t.cantidad;
+    cout << "Precio: ";
+    cin >> t.precio;
+    
+    t.total = t.cantidad * t.precio;
+    transacciones[cont_transaccion] = t;
+    cont_transaccion++;
+}
+
+void ViewTransaction() {
+    cout << "Transacciones registradas:" << endl;
+    for (int i = 0; i < cont_transaccion; i++) {
+        cout << "Tipo: " << transacciones[i].tipo << endl;
+        cout << "Nombre: " << transacciones[i].nombre << endl;
+        cout << "Cantidad: " << transacciones[i].cantidad << endl;
+        cout << "Precio: " << transacciones[i].precio << endl;
+        cout << "Total: " << transacciones[i].total << endl;
+        cout << "--------------------------" << endl;
+    }
+}
+
+void SearchTransaction() {
+    string producto;
+    cout << "Ingrese el nombre del producto a buscar: ";
+    cin >> producto;
+
+    bool encontrado = false;
+    for (int i = 0; i < cont_transaccion; i++) {
+        if (transacciones[i].nombre == producto) {
+            cout << "Transaccion encontrada:" << endl;
+            cout << "Tipo: " << transacciones[i].tipo << endl;
+            cout << "Cantidad: " << transacciones[i].cantidad << endl;
+            cout << "Precio: " << transacciones[i].precio << endl;
+            cout << "Total: " << transacciones[i].total << endl;
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        cout << "No se encontro ninguna transaccion con ese nombre." << endl;
+    }
+}
+
+void UpdateTransaction() {
+    string producto;
+    cout << "Ingrese el nombre del producto a actualizar: ";
+    cin >> producto;
+
+    bool encontrado = false;
+    for (int i = 0; i < cont_transaccion; i++) {
+        if (transacciones[i].nombre == producto) {
+            cout << "Actualice los datos de la transaccion:" << endl;
+            cout << "Tipo (compra o venta): ";
+            cin >> transacciones[i].tipo;
+            cout << "Cantidad: ";
+            cin >> transacciones[i].cantidad;
+            cout << "Precio: ";
+            cin >> transacciones[i].precio;
+            
+            transacciones[i].total = transacciones[i].cantidad * transacciones[i].precio;
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        cout << "No se encontro ninguna transaccion con ese nombre." << endl;
+    }
+}
